@@ -1,7 +1,7 @@
 {
 	"name": "git-assistant",
 	"displayName": "Git (Submodule) Assistant",
-	"description": "Bachelorproject of Ivan Hofer",
+	"description": "VS Code extension that detects common git (and submodule) issues and helps to solve them",
 	"version": "0.9.5",
 	"publisher": "ivanhofer",
 	"repository": "https://github.com/ivanhofer/git-assistant",
