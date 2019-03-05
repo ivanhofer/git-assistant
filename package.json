@@ -1,0 +1,254 @@
+{
+	"name": "git-assistant",
+	"displayName": "Git (Submodule) Assistant",
+	"description": "Bachelorproject of Ivan Hofer",
+	"version": "0.9.5",
+	"publisher": "ivanhofer",
+	"repository": "https://github.com/ivanhofer/git-assistant",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.27.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"git",
+		"submodule",
+		"assistant",
+		"helper",
+		"workflow"
+	],
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#F2A52A",
+		"theme": "light"
+	},
+	"activationEvents": [
+		"workspaceContains:.git"
+	],
+	"main": "./out/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "git-assistant.startGitAssisitant",
+				"title": "Git Assistant - Start Watching"
+			},
+			{
+				"command": "git-assistant.stopGitAssisitant",
+				"title": "Git Assistant - Stop Watching"
+			},
+			{
+				"command": "git-assistant.showOutput",
+				"title": "Git Assistant - Show Logging Output"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "git-assistant.pushBeforeClosingIDEhard",
+				"title": "Quit VSCode",
+				"key": "ctrl+Q",
+				"mac": "cmd+Q"
+			},
+			{
+				"command": "git-assistant.pushBeforeClosingIDE",
+				"title": "Close Editor",
+				"key": "ctrl+W",
+				"mac": "cmd+W"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Git Assistant",
+			"properties": {
+				"git-assistant.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "enables git-assistant on startup"
+				},
+				"git-assistant.message-wait-time": {
+					"type": "number",
+					"default": 60000,
+					"description": "time in ms to wait for an interaction with a message"
+				},
+				"git-assistant.watcher-excludePaths": {
+					"type": "array",
+					"default": [
+						"node_modules"
+					],
+					"description": "defines wich folders should not be included to watch for changes"
+				},
+				"git-assistant.checkConfigVariables": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "performs a check for missing git-config variables on startup"
+				},
+				"git-assistant.checkConfigVariables-variablesToCheck": {
+					"type": "array",
+					"default": [
+						"user.email",
+						"user.name",
+						"user.username"
+					],
+					"description": "defines wich git-config variables should be checked"
+				},
+				"git-assistant.checkConfigVariables-scope": {
+					"type": "string",
+					"enum": [
+						"global",
+						"local"
+					],
+					"default": "global",
+					"description": "defines if the git-config-variables should be set global or local"
+				},
+				"git-assistant.branchWarn": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "checks for branches the developer should not commit"
+				},
+				"git-assistant.branchWarn-illegalBranches": {
+					"type": "array",
+					"default": [
+						"master"
+					],
+					"description": "defines the branches the developer should not commit"
+				},
+				"git-assistant.branchWarn-stashChanges": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "defines if changes should be stashed it checkout fails"
+				},
+				"git-assistant.pushBeforeClosingIDE": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "warns if there are unpushed commits when closing the IDE"
+				},
+				"git-assistant.pushSubmodulesFirst": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "pushes commits in submodules before commits in main-repository"
+				},
+				"git-assistant.checkForRemote": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "warns if a branch was not pushed to the remote"
+				},
+				"git-assistant.checkForRemote-defaultRemote": {
+					"type": "string",
+					"default": "",
+					"description": "if remote is set, branches will be pushed automatically to this remote"
+				},
+				"git-assistant.pullCommits": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "pulls commits"
+				},
+				"git-assistant.pushCommits": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "pushes commits"
+				},
+				"git-assistant.mergeCommits": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "merges commits"
+				},
+				"git-assistant.detectDetachedHead": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "checks repository and submodule for detachedHEAD-status"
+				},
+				"git-assistant.updateSubmodules": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"auto",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "updates Submodules automatically if main-repository changes"
+				},
+				"git-assistant.checkRemoteChanges": {
+					"type": "string",
+					"enum": [
+						"enabled",
+						"disabled"
+					],
+					"default": "enabled",
+					"description": "checks periodically for new commits on server"
+				},
+				"git-assistant.checkRemoteChanges-checkEveryNMinutes": {
+					"type": "number",
+					"default": 60,
+					"description": "checks periodically for new commits on server"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"devDependencies": {
+		"@types/deep-diff": "0.0.31",
+		"@types/glob": "^7.1.1",
+		"@types/node": "^7.10.2",
+		"glob": "^7.1.3",
+		"tslint": "^5.12.1",
+		"typescript": "^2.9.2"
+	},
+	"dependencies": {
+		"deep-diff": "^1.0.2",
+		"simple-git": "^1.107.0",
+		"vsce": "^1.53.0",
+		"vscode": "^1.1.21"
+	}
+}
