@@ -74,7 +74,9 @@
 				"git-assistant.watcher-excludePaths": {
 					"type": "array",
 					"default": [
-						"node_modules"
+						"dist",
+						"node_modules",
+						"out"
 					],
 					"description": "defines wich folders should not be included to watch for changes"
 				},
