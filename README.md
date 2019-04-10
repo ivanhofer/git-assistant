@@ -1,8 +1,8 @@
 # 'Git (Submodule) Assistant'
 
-'Git (Submodule) Assistant' is an extension that helps you preventing common problems when handling with Git-repositories. Specially the use of Submodules in a project, when done wrong, can introduce some unintended problems. This Extension detect these problems, notifies and assists you with fixes. The Fixes can be also applied automatically as soon as the problem is detected.
+'Git (Submodule) Assistant' is an extension that helps you preventing common problems when handling with Git-repositories. Specially the use of Submodules in a project, when done wrong, can introduce some unintended problems. This extension detects these problems, notifies and assists you with fixes. The fixes can be also applied automatically as soon as the problem is detected.
 
-![image - 'Git (Submodule) Assistant'](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/git-assistant.png 'image - 'Git (Submodule) Assistant'')
+![image - 'Git (Submodule) Assistant'](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/git-assistant.png "image - 'Git (Submodule) Assistant'")
 
 ## Usage
 
@@ -14,7 +14,7 @@ Simply install this extension in VS Code and open a Git-repository\*. Then the e
 
 The 'Git (Submodule) Assistant' runs as a background service and integrates in the VS Code taskbar. It offers a few features, that can detect common mistakes when handling with Git-repositories. You'll get a notification and the possibility to fix the problem with a simple click. Every feature can be disabled and configured in the VS Code settings. For many features it is possible to enable an auto-fix (see section SETTINGS): as soon as the problem is detected 'Git (Submodule) Assistant' will solve it for you.
 
-'Git (Submodule) Assistant' helps you with following things:
+'Git (Submodule) Assistant' helps you with the following things:
 
 ### It will warn you if you work on a branch where you should not commit (e.g. "master"-branch)
 
@@ -24,7 +24,7 @@ Whenever you are on a branch, you should not commit, 'Git (Submodule) Assistant'
 
 ### It will warn you if you close VS Code and not all commits were pushed to the remote
 
-If you have changes that are not pushed to the remote and you try to close VS Code, 'Git (Submodule) Assistant' will prevent VS Code from closing and let you choose if you wish to push the changes or close VS Code. When you choose to push the changes, all commits will be pushed to the remote and VS Code will close itself. Unfurtunately, this will only work if you close VS Code by keyboard shortcut. If you close VS Code with your mouse by presdsing the 'x'-button, the check fur unpushed commits will not perform.
+If you have changes that are not pushed to the remote and you try to close VS Code, 'Git (Submodule) Assistant' will prevent VS Code from closing and let you choose if you wish to push the changes or close VS Code. When you choose to push the changes, all commits will be pushed to the remote and VS Code will close itself. Unfurtunately, this will only work if you close VS Code by keyboard shortcut. If you close VS Code with your mouse by pressing the 'x'-button, the check fur unpushed commits will not perform.
 
 ![image - close IDE](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/close_ide.png 'image - close IDE')
 
@@ -72,9 +72,9 @@ If you create a new brnach and forgot to publish it, 'Git (Submodule) Assistant'
 
 ![image - check config variables](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/publish_branch.png 'image - publish branch')
 
-### It will detect if some Git-configurations are missing and promt you to fill them in
+### It will detect if some Git-configurations are missing and prompt you to fill them in
 
-In case you forgot to configure essential Git settings, 'Git (Submodule) Assistant' will inform you and you can simply enter the value of the variable in VS Code. No command line required. In the settings, you can choose variables 'Git (Submodule) Assistant' should look for in you Git config file.
+In case you forgot to configure essential Git settings, 'Git (Submodule) Assistant' will inform you and you can simply enter the value of the variable in VS Code. No command line is required. In the settings, you can choose variables 'Git (Submodule) Assistant' should look for in you Git config file.
 
 ![image - no remote](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/check_config_variables.png 'image - check config variables')
 
