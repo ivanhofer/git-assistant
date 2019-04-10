@@ -259,7 +259,7 @@ export default class GitRepository {
 			return newModel
 		}
 
-		const tempDiff = deepdiff(newModel, oldModel)
+		const tempDiff = deepdiff(newModel, oldModel) || []
 
 		let diff: any = {}
 		// converts the deep-diff object to a Git-Model
