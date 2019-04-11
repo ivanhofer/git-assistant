@@ -1,6 +1,8 @@
 .vscode
 node_modules
-out/
-src/
+out
+src
+images/docs
+images/icon.svg
 tsconfig.json
 webpack.config.json
