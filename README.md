@@ -93,5 +93,4 @@ Please share your thougts on the [GitHub page](https://github.com/ivanhofer/git-
 ## Dependencies
 
 -  [deep-diff](https://github.com/flitbit/diff)
--  [node-glob](https://github.com/isaacs/node-glob)
 -  [simple-git](https://github.com/steveukx/git-js)
