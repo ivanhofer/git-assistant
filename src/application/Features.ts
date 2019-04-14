@@ -1,11 +1,40 @@
 'use strict'
 
-import Logger from '../UI/Logger'
-import * as glob from 'glob'
-import * as path from 'path'
+import PushBeforeClosingIDE from '../handlers/exit/PushBeforeClosingIDE.handler'
+import GitHandler from '../handlers/git/GitHandler.handler'
+import BranchWarn from '../handlers/git/branch_changed/BranchWarn.handler'
+import CheckForRemote from '../handlers/git/branch_changed/CheckForRemote.handler'
+import DetectDetachedHead from '../handlers/git/branch_changed/DetectDetachedHead.handler'
+import MergeCommits from '../handlers/git/commits/MergeCommits.handler'
+import PullCommits from '../handlers/git/commits/PullCommits.handler'
+import PushCommits from '../handlers/git/commits/PushCommit.handler'
+import PushSubmodulesFirst from '../handlers/git/push/PushSubmodulesFirst.handler'
+import CheckConfigVariables from '../handlers/start/CheckConfigVariables.handler'
+import CheckRemoteChanges from '../handlers/start/CheckRemoteChanges.handler'
+import PerformStartupCheckOfRepositories from '../handlers/start/PerformStartupCheckOfRepositories.handler'
+import UpdateInitSubmodules from '../handlers/start/UpdateInitSubmodules.handler'
+import WatcherStart from '../handlers/start/WatcherStart.handler'
+import HandleSubmoduleUpdate from '../handlers/submodule/update/HandleSubmoduleUpdate.handler'
+import SubmoduleHandler from '../handlers/submodule/SubmoduleHandler.handler'
 
-const HANDLERS_PATH = path.join(__dirname, '../handlers/')
-
+const HANDLERS = [
+	PushBeforeClosingIDE,
+	GitHandler,
+	BranchWarn,
+	CheckForRemote,
+	DetectDetachedHead,
+	MergeCommits,
+	PullCommits,
+	PushCommits,
+	PushSubmodulesFirst,
+	CheckConfigVariables,
+	CheckRemoteChanges,
+	PerformStartupCheckOfRepositories,
+	UpdateInitSubmodules,
+	WatcherStart,
+	SubmoduleHandler,
+	HandleSubmoduleUpdate
+]
 /**
  * this class registers all feature-handler in the extension
  */
@@ -13,28 +42,9 @@ export default class Features {
 	/**
 	 * registers all files matching the "*.handler.js"-name-pattern to the Event-Handler
 	 */
-	static enableFeatures(): Promise<void> {
-		return new Promise((resolve, reject) => {
-			// search all feature-files
-			glob('**/*.handler.js', { cwd: HANDLERS_PATH }, (err: any, files: string[]) => {
-				if (err) {
-					console.error(err)
-
-					return resolve()
-				}
-
-				// register each Feature
-				files.forEach((file: string) => {
-					try {
-						const Handler = require(HANDLERS_PATH + file)
-						Handler.default.registerEventHandler()
-					} catch (e) {
-						Logger.showError(e)
-					}
-				})
-
-				return resolve()
-			})
+	static enableFeatures(): void {
+		HANDLERS.forEach(handler => {
+			handler.registerEventHandler()
 		})
 	}
 }
