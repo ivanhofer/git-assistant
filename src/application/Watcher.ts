@@ -52,7 +52,9 @@ export default class Watcher {
 	 * stops listening for file changes
 	 */
 	static stop(): void {
-		Watcher.fsWatcher.close()
+		if (Watcher.fsWatcher) {
+			Watcher.fsWatcher.close()
+		}
 		StatusBar.removeStatus(Watcher.status)
 	}
 
