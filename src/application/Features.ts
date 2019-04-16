@@ -19,21 +19,21 @@ import SubmoduleHandler from '../handlers/submodule/SubmoduleHandler.handler'
 
 const HANDLERS = [
 	PushBeforeClosingIDE,
-	GitHandler,
 	BranchWarn,
 	CheckForRemote,
 	DetectDetachedHead,
 	MergeCommits,
 	PullCommits,
 	PushCommits,
+	GitHandler,
 	PushSubmodulesFirst,
-	CheckConfigVariables,
 	CheckRemoteChanges,
 	PerformStartupCheckOfRepositories,
 	UpdateInitSubmodules,
 	WatcherStart,
 	SubmoduleHandler,
-	HandleSubmoduleUpdate
+	HandleSubmoduleUpdate,
+	CheckConfigVariables
 ]
 /**
  * this class registers all feature-handler in the extension
