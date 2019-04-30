@@ -12,6 +12,8 @@ import ChangeHandler from '../../ChangeHandler'
 import Event from '../../../models/Event'
 import EventHandler from '../../EventHandler'
 import Config, { ConfigOptions } from '../../../application/Config'
+import QuickPickOption from '../../../UI/QuickPickOption'
+import QuickPick from '../../../UI/QuickPick'
 
 /**
  * this Handler is responsible for resolving the "detached HEAD" status
@@ -30,25 +32,22 @@ export default class DetectDetachedHead extends ChangeHandler {
 		}
 
 		const branch = await DetectDetachedHead.getRealBranchForHash(gitModel)
+
 		if (!branch.length) {
 			return
 		}
 
-		// remove remote from Branch-name
-		const split = branch.split('/')
-		const localBranch = split.slice(1).join('')
-
 		if (Config.getValue('detectDetachedHead') === ConfigOptions.auto) {
-			await GitRepository.checkoutBranchForRepository(gitModel.getRelativePath(), localBranch)
-			StatusBar.addStatus(Status.autoCheckoutForDetachedHead(gitModel.getRelativePath(), localBranch))
+			await GitRepository.checkoutBranchForRepository(gitModel.getRelativePath(), branch)
+			StatusBar.addStatus(Status.autoCheckoutForDetachedHead(gitModel.getRelativePath(), branch))
 
 			return
 		}
 
-		let message = `the HEAD of your Repository is detached. Would you like to checkout its corresponding branch '${localBranch}'?`
+		let message = `the HEAD of your Repository is detached. Would you like to checkout its corresponding branch '${branch}'?`
 
 		if (!gitModel.isRootGit()) {
-			message = `The HEAD of the Submodule '${gitModel.getRelativePath()}' in your Repisotory is detached. Would you like to checkout its corresponding branch '${localBranch}'?`
+			message = `The HEAD of the Submodule '${gitModel.getRelativePath()}' in your Repisotory is detached. Would you like to checkout its corresponding branch '${branch}'?`
 		}
 
 		const action = await InformationMessage.showInformationMessage(
@@ -60,7 +59,7 @@ export default class DetectDetachedHead extends ChangeHandler {
 			return
 		}
 
-		await GitRepository.checkoutBranchForRepository(gitModel.getRelativePath(), localBranch)
+		await GitRepository.checkoutBranchForRepository(gitModel.getRelativePath(), branch)
 	}
 
 	/**
@@ -68,18 +67,34 @@ export default class DetectDetachedHead extends ChangeHandler {
 	 */
 	private static getRealBranchForHash = async (gitModel: Git): Promise<string> => {
 		// the first one in the list is the current "detached HEAD"
-		const branches = gitModel.getBranches().filter((branch, index) => index > 1)
+		const branches = gitModel.getLocalBranches().filter((branch, index) => index > 1)
 		const current = gitModel.getBranch()
 
-		let realBranch = ''
+		const realBranches: string[] = []
 		branches.forEach((branch: Branch) => {
 			if (current === branch.getCommit() || current === branch.getName()) {
-				realBranch = branch.getName()
+				realBranches.push(branch.getName())
 			}
 		})
 
-		if (realBranch.length) {
-			return realBranch
+		if (realBranches.length) {
+			if (realBranches.length === 1) {
+				return realBranches[0]
+			}
+
+			if (gitModel.getMainRepositoryPath()) {
+				const configuredBranch = await GitRepository.getConfiguredBranchForSubmodule(gitModel)
+				if (configuredBranch && realBranches.includes(configuredBranch)) {
+					return configuredBranch
+				}
+
+				const options: QuickPickOption[] = realBranches.map(branch => new QuickPickOption(branch, branch))
+
+				const selectedBranch = await QuickPick.showQuickPick('choose the branch to check out', ...options)
+				if (selectedBranch) {
+					return selectedBranch
+				}
+			}
 		}
 
 		Logger.showError(

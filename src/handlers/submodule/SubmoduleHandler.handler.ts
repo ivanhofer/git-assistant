@@ -20,7 +20,8 @@ export default class SubmoduleHandler extends ChangeHandler {
 		}
 
 		// get submodulePaths of files that have changed
-		const submodules = (await GitRepository.getGitModel()).getSubmodules()
+		const gitModel = await GitRepository.getGitModel()
+		const submodules = gitModel.getSubmodules()
 		const submodulePaths: Set<string> = new Set()
 		changedFiles.forEach(changedFile => {
 			const founds = submodules
@@ -30,8 +31,8 @@ export default class SubmoduleHandler extends ChangeHandler {
 		})
 
 		for (const submodulePath of submodulePaths) {
-			const gitModel = await GitRepository.updateGitModel(submodulePath)
-			await GitHandler.handleRepositoryChange(gitModel)
+			const submoduleModel = await GitRepository.updateGitModel(submodulePath, gitModel.getPath())
+			await GitHandler.handleRepositoryChange(submoduleModel)
 		}
 	}
 }

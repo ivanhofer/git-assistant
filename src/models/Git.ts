@@ -16,6 +16,7 @@ export default class Git {
 	private ahead: number
 	private behind: number
 	private submodules: Submodule[]
+	private mainRepositoryPath: string
 	private oldModel: Git | null
 
 	constructor(dirpath: string = '') {
@@ -30,6 +31,7 @@ export default class Git {
 		this.ahead = 0
 		this.behind = 0
 		this.submodules = []
+		this.mainRepositoryPath = ''
 		this.oldModel = null
 	}
 
@@ -89,11 +91,11 @@ export default class Git {
 	}
 
 	getLocalBranches(): Branch[] {
-		return this.branches.filter((branch: Branch) => !branch.getName().match(/remotes\//))
+		return this.branches.filter((branch: Branch) => !branch.isRemote())
 	}
 
 	getRemoteBranches(): Branch[] {
-		return this.branches.filter((branch: Branch) => branch.getName().match(/remotes\//))
+		return this.branches.filter((branch: Branch) => branch.isRemote())
 	}
 
 	setRemotes(remotes: any): void {
@@ -145,6 +147,14 @@ export default class Git {
 
 	getSubmodules(): Submodule[] {
 		return this.submodules
+	}
+
+	setMainRepositoryPath(mainRepositoryPath: string): void {
+		this.mainRepositoryPath = mainRepositoryPath
+	}
+
+	getMainRepositoryPath(): string {
+		return this.mainRepositoryPath
 	}
 
 	setOldModel(oldModel: Git): void {
