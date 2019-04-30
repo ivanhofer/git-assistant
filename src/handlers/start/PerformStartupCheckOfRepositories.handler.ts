@@ -21,7 +21,7 @@ export default class PerformStartupCheckOfRepositories extends ChangeHandler {
 
 		const submodulePaths = gitModel.getSubmodules().map((submodule: Submodule) => submodule.getPath())
 		for (const submodulePath of submodulePaths) {
-			const submoduleModel = await GitRepository.getGitModel(submodulePath)
+			const submoduleModel = await GitRepository.getGitModel(submodulePath, gitModel.getPath())
 			await GitHandler.handleRepositoryChange(submoduleModel)
 		}
 	}

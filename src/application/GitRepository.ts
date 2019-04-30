@@ -1,6 +1,7 @@
 'use strict'
 
 import { join } from 'path'
+import { readFile } from 'fs'
 import Git from '../models/Git'
 import Submodule from '../models/Submodule'
 import Logger from '../UI/Logger'
@@ -48,7 +49,7 @@ export default class GitRepository {
 	 * returns the current status as Git-Model
 	 * @param repositoryPath relative path of the Repsoitory
 	 */
-	static async getGitModel(repositoryPath: string = ''): Promise<Git> {
+	static async getGitModel(repositoryPath: string = '', mainRepositoryPath: string = ''): Promise<Git> {
 		repositoryPath = repositoryPath.replace(/\\/gi, '/')
 
 		let gitModel = GitRepository.gitModels.get(repositoryPath)
@@ -57,7 +58,7 @@ export default class GitRepository {
 		}
 
 		// no Git-Model was created yet => create a new one
-		gitModel = await GitRepository.updateGitModel(repositoryPath)
+		gitModel = await GitRepository.updateGitModel(repositoryPath, mainRepositoryPath)
 
 		return gitModel
 	}
@@ -188,7 +189,7 @@ export default class GitRepository {
 	 * reads the current Status of the Repsoitory
 	 * @param repositoryPath relative path of the Repsoitory
 	 */
-	static async updateGitModel(repositoryPath: string = ''): Promise<Git> {
+	static async updateGitModel(repositoryPath: string = '', mainRepositoryPath: string = ''): Promise<Git> {
 		let simplegit
 		try {
 			simplegit = GitRepository.getSimplegit(repositoryPath)
@@ -208,6 +209,10 @@ export default class GitRepository {
 			} else {
 				Logger.showMessage(`[repository] No remote repository found for ${repositoryPath}`)
 			}
+		}
+
+		if (mainRepositoryPath) {
+			gitModel.setMainRepositoryPath(mainRepositoryPath)
 		}
 
 		const stat = Status.updatingGitModel(repositoryPath)
@@ -434,6 +439,37 @@ export default class GitRepository {
 
 		StatusBar.addStatus(Status.stashPopChanges())
 		GitRepository.updatingEnd(repositoryPath)
+	}
+
+	/**
+	 * checks the '.gitmodules' file for a configured branch
+	 * @param gitModel Git-Model of Submodule
+	 */
+	static async getConfiguredBranchForSubmodule(gitModel: Git): Promise<string> {
+		return new Promise(resolve => {
+			const mainRepsoitoryPath = gitModel.getMainRepositoryPath()
+			const submodulePath = gitModel.getRelativePath()
+
+			readFile(join(mainRepsoitoryPath, '/.gitmodules'), 'utf8', (err, data: string) => {
+				if (!data) {
+					return resolve('')
+				}
+
+				const lines = data.match(/[^\r\n]+/g) || ([] as RegExpMatchArray)
+				let foundSubmodule = false
+				lines.forEach(line => {
+					if (line.includes('[submodule')) {
+						foundSubmodule = line.includes(submodulePath)
+					} else if (foundSubmodule) {
+						if (line.includes('branch')) {
+							return resolve(line.replace('branch =', '').trim())
+						}
+					}
+				})
+
+				resolve('')
+			})
+		})
 	}
 
 	/*******************************************************************************************/
