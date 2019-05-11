@@ -1,6 +1,8 @@
 # Git (Submodule) Assistant
 
-'Git (Submodule) Assistant' is an extension that helps you preventing common problems when handling with Git-repositories. Specially the use of Submodules in a project, when done wrong, can introduce some unintended problems. This extension detects these problems, notifies and assists you with fixes. The fixes can be also applied automatically as soon as the problem is detected.
+'Git (Submodule) Assistant' is an extension for VS Code that helps you preventing common problems when handling with Git-repositories. Specially the use of Submodules in a project, when done wrong, can introduce some unintended problems. This extension detects these problems, notifies and assists you with fixes. The fixes can be also applied automatically as soon as the problem is detected.
+
+[See extension in the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ivanhofer.git-assistant)
 
 ![image - 'Git (Submodule) Assistant'](https://github.com/ivanhofer/git-assistant/raw/master/images/docs/git-assistant.png "image - 'Git (Submodule) Assistant'")
 
