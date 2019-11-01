@@ -128,7 +128,7 @@ export default class Watcher {
 		}
 
 		// nothing registered yet for this event => create new Set for it
-		const set = new Set()
+		const set = new Set<string>()
 		Watcher.changedFiles.set(event, set)
 
 		return set

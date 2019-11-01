@@ -13,3 +13,7 @@ All notable changes to the "git-assistant" extension will be documented in this 
 ## 1.2.0
 
 -  Configured branch in .gitmodules is considered when looking for correct branch after a detached HEAD
+
+## 1.2.2
+
+-  fix security issue of a dependency
