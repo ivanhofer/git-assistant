@@ -7,9 +7,9 @@
 	"repository": "https://github.com/ivanhofer/git-assistant",
 	"license": "MIT",
 	"scripts": {
-		"vscode:prepublish": "webpack --mode none",
-		"compile": "webpack --mode none",
-		"watch": "webpack --mode none --watch",
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
 		"test-compile": "tsc -p ./",
 		"version-bump": "node version-bump",
 		"lint:fix": "eslint --fix src/**/*.ts"
