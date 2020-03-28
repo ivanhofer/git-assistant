@@ -17,25 +17,25 @@
 	"devDependencies": {
 		"@types/deep-diff": "^1.0.0",
 		"@types/glob": "^7.1.1",
-		"@types/node": "^11.15.2",
+		"@types/node": "^13.9.5",
 		"@typescript-eslint/eslint-plugin": "^2.25.0",
 		"@typescript-eslint/parser": "^2.25.0",
-		"copy-webpack-plugin": "^5.0.4",
+		"copy-webpack-plugin": "^5.1.1",
 		"eslint": "^6.8.0",
 		"eslint-config-prettier": "^6.10.1",
 		"eslint-plugin-prettier": "^3.1.2",
 		"prettier": "^2.0.2",
-		"ts-loader": "^5.4.5",
-		"tslint": "^5.20.0",
-		"typescript": "^3.6.4",
-		"vsce": "^1.69.0",
+		"ts-loader": "^6.2.2",
+		"tslint": "^6.1.0",
+		"typescript": "^3.8.3",
+		"vsce": "^1.74.0",
 		"vscode": "^1.1.36",
-		"webpack": "^4.41.2",
-		"webpack-cli": "^3.3.10"
+		"webpack": "^4.42.1",
+		"webpack-cli": "^3.3.11"
 	},
 	"dependencies": {
 		"deep-diff": "^1.0.2",
-		"simple-git": "^1.126.0"
+		"simple-git": "^1.132.0"
 	},
 	"engines": {
 		"vscode": "^1.33.0"
