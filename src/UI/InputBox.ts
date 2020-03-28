@@ -25,7 +25,7 @@ export default class InputBox {
 	static async showInputBox(message: string, validationFunction: any = InputValidation.NOTEMPTY): Promise<string> {
 		const input = await window.showInputBox({
 			prompt: message,
-			validateInput: validationFunction
+			validateInput: validationFunction,
 		})
 		if (input) {
 			return input

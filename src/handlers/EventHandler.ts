@@ -76,7 +76,9 @@ export default class EventHandler {
 		const timeEndHandler = Date.now()
 		const timeDiffHandler = (timeEndHandler - timeStartHandler) / 1000
 		Logger.showMessage(
-			`[event] ${Handlers.length} function${Handlers.length === 1 ? '' : 's'} called for '${changeEvent}' [${timeDiffHandler}s]`
+			`[event] ${Handlers.length} function${
+				Handlers.length === 1 ? '' : 's'
+			} called for '${changeEvent}' [${timeDiffHandler}s]`,
 		)
 
 		EventHandler.level--

@@ -35,10 +35,10 @@ export default class CheckForRemote extends ChangeHandler {
 		if (remotes.length && Config.getValue('checkForRemote') !== ConfigOptions.auto) {
 			const option = await InformationMessage.showInformationMessage(
 				`No remote found for '${getRepositoryName(
-					repositoryPath
+					repositoryPath,
 				)}' on branch '${branch}' Would you like to publish this branch to the remote Server?`,
 				MessageOption.optionYES,
-				MessageOption.optionNO
+				MessageOption.optionNO,
 			)
 
 			if (option !== MessageOption.YES) {
@@ -73,8 +73,8 @@ export default class CheckForRemote extends ChangeHandler {
 	private static noRemoteUpstreamSet(repositoryPath: string): void {
 		InformationMessage.showInformationMessage(
 			`No Remotes found for your Repository '${getRepositoryName(
-				repositoryPath
-			)}'. You should add a Remote to have a backup in case of data loss.`
+				repositoryPath,
+			)}'. You should add a Remote to have a backup in case of data loss.`,
 		)
 	}
 }

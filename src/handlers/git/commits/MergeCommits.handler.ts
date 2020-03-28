@@ -38,10 +38,10 @@ export default class MergeCommits extends ChangeHandler {
 
 		const action = await InformationMessage.showInformationMessage(
 			`You are currently behind ${behind} commits. But you also have ${ahead} changes that are currently not on the server for ${getRepositoryName(
-				repositoryPath
+				repositoryPath,
 			)}. Would you like to merge the changes?`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 
 		if (action !== MessageOption.YES) {

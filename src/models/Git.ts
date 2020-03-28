@@ -82,7 +82,7 @@ export default class Git {
 
 	setBranches(branches: any): void {
 		this.branches = Object.keys(branches)
-			.map(key => branches[key])
+			.map((key) => branches[key])
 			.map((branch: any) => new Branch(branch.name, branch.commit))
 	}
 

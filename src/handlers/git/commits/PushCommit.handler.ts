@@ -37,10 +37,10 @@ export default class PushCommits extends ChangeHandler {
 
 		const action = await InformationMessage.showInformationMessage(
 			`You have ${ahead} changes that are currently not on the server for ${getRepositoryName(
-				repositoryPath
+				repositoryPath,
 			)}. Would you like to push the changes?`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		).catch(() => {})
 
 		if (action !== MessageOption.YES) {

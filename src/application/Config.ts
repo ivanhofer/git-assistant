@@ -4,7 +4,7 @@ import { WorkspaceConfiguration, ConfigurationTarget, workspace } from 'vscode'
 export enum ConfigOptions {
 	'enabled' = 'enabled',
 	'auto' = 'auto',
-	'disabled' = 'disabled'
+	'disabled' = 'disabled',
 }
 
 /**

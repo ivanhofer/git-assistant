@@ -50,7 +50,7 @@ export default class CheckRemoteChanges extends ChangeHandler {
 		}
 
 		// check all Submodules
-		for (const submodulePath of gitModel.getSubmodules().map(submodule => submodule.getPath())) {
+		for (const submodulePath of gitModel.getSubmodules().map((submodule) => submodule.getPath())) {
 			await CheckRemoteChanges.handle(submodulePath)
 		}
 	}

@@ -37,10 +37,10 @@ export default class PullCommits extends ChangeHandler {
 
 		const action = await InformationMessage.showInformationMessage(
 			`You are currently ${behind} commits behind in '${getRepositoryName(
-				repositoryPath
+				repositoryPath,
 			)}'. Would you like to pull these changes?`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 
 		if (action !== MessageOption.YES) {

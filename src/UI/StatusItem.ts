@@ -5,7 +5,7 @@ import { DEFAULT_TIMEOUT, TICK_TIME } from './StatusBar'
 export enum Octicon {
 	'comment' = '$(comment)',
 	'sync' = '$(sync)',
-	'code' = '$(code)'
+	'code' = '$(code)',
 }
 
 /**

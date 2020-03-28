@@ -95,7 +95,7 @@ export default class GitRepository {
 		// submodule references
 		const subModuleRoots = (await GitRepository.getGitModel())
 			.getSubmodules()
-			.filter(submodule => '.git/modules/' + submodule.getPath() === filename)
+			.filter((submodule) => '.git/modules/' + submodule.getPath() === filename)
 		if (subModuleRoots.length) {
 			return true
 		}
@@ -315,7 +315,7 @@ export default class GitRepository {
 	static getConfigVariable(variable: string): Promise<string> {
 		return new Promise((resolve, reject) => {
 			CMD.executeCommand(`git config --get ${variable}`)
-				.then(result => {
+				.then((result) => {
 					if (!result.length) {
 						return reject()
 					}
@@ -334,7 +334,7 @@ export default class GitRepository {
 	static async setConfigVariable(
 		variable: string,
 		value: string,
-		scope: 'global' | 'local' = 'global'
+		scope: 'global' | 'local' = 'global',
 	): Promise<void> {
 		await CMD.executeCommand(`git config --${scope} ${variable} ${value}`).catch(() => {
 			Logger.showError(`An Error occured while trying to set '${variable}'`)
@@ -360,9 +360,7 @@ export default class GitRepository {
 		StatusBar.addStatus(status)
 		GitRepository.updatingStart()
 
-		await GitRepository.getSimplegit(repositoryPath)
-			.push(remote, branch, { '-u': null })
-			.catch()
+		await GitRepository.getSimplegit(repositoryPath).push(remote, branch, { '-u': null }).catch()
 
 		GitRepository.updatingEnd(repositoryPath)
 		StatusBar.removeStatus(status)
@@ -446,7 +444,7 @@ export default class GitRepository {
 	 * @param gitModel Git-Model of Submodule
 	 */
 	static async getConfiguredBranchForSubmodule(gitModel: Git): Promise<string> {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			const mainRepsoitoryPath = gitModel.getMainRepositoryPath()
 			const submodulePath = gitModel.getRelativePath()
 
@@ -457,7 +455,7 @@ export default class GitRepository {
 
 				const lines = data.match(/[^\r\n]+/g) || ([] as RegExpMatchArray)
 				let foundSubmodule = false
-				lines.forEach(line => {
+				lines.forEach((line) => {
 					if (line.includes('[submodule')) {
 						foundSubmodule = line.includes(submodulePath)
 					} else if (foundSubmodule) {
@@ -489,7 +487,7 @@ export default class GitRepository {
 		remote: string,
 		branch: string,
 		behind: number = 0,
-		silent: boolean = false
+		silent: boolean = false,
 	): Promise<void> {
 		const status = Status.commitsPulling(repositoryPath, remote, branch, behind)
 		if (!silent) {
@@ -533,7 +531,7 @@ export default class GitRepository {
 		remote: string,
 		branch: string,
 		ahead: number = 0,
-		silent: boolean = false
+		silent: boolean = false,
 	): Promise<any> {
 		const status = Status.commitsPushing(repositoryPath, remote, branch, ahead)
 		if (!silent) {
@@ -570,7 +568,7 @@ export default class GitRepository {
 			gitModel.getRelativePath(),
 			gitModel.getRemote(),
 			gitModel.getBranch(),
-			gitModel.getAhead()
+			gitModel.getAhead(),
 		)
 	}
 
@@ -591,18 +589,18 @@ export default class GitRepository {
 		remote: string,
 		branch: string,
 		ahead: number = 0,
-		behind: number = 0
+		behind: number = 0,
 	): Promise<any> {
 		GitRepository.updatingStart()
 		const status = Status.commitsMerging(repositoryPath, remote, branch, ahead, behind)
 		StatusBar.addStatus(status)
 
 		await GitRepository.pullRepository(repositoryPath, remote, branch, behind, true).catch((error: any) =>
-			GitRepository.catchPushAndPullRepositoryError(error, repositoryPath, remote, branch, status)
+			GitRepository.catchPushAndPullRepositoryError(error, repositoryPath, remote, branch, status),
 		)
 
 		await GitRepository.pushRepository(repositoryPath, remote, branch, ahead, true).catch((error: any) =>
-			GitRepository.catchPushAndPullRepositoryError(error, repositoryPath, remote, branch, status)
+			GitRepository.catchPushAndPullRepositoryError(error, repositoryPath, remote, branch, status),
 		)
 
 		StatusBar.addStatus(Status.commitsMerged(repositoryPath, remote, branch, ahead, behind))
@@ -623,7 +621,7 @@ export default class GitRepository {
 		repositoryPath: string,
 		remote: string,
 		branch: string,
-		status: StatusItem
+		status: StatusItem,
 	): void {
 		Logger.showError(`Failed to Merge changes on '${remote}/${branch}'`, true)
 		Logger.showError(error, true)

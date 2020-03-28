@@ -1,0 +1,27 @@
+{
+	"root": true,
+	"env": {
+		"browser": false,
+		"es6": true
+	},
+	"extends": ["prettier/@typescript-eslint"],
+	"globals": {},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint", "prettier"],
+	"rules": {
+		"prettier/prettier": "error",
+		"node/no-unpublished-require": "off",
+		"node/no-unsupported-features/es-syntax": "off",
+		"import/no-unresolved": "off",
+		"import/prefer-default-export": "off",
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+		"arrow-body-style": ["warn", "as-needed"],
+		"no-async-promise-executor": "off",
+		"func-names": "off"
+	}
+}

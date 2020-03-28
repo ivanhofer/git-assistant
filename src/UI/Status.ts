@@ -35,7 +35,7 @@ export default class Status {
 
 	static publishBranch(repositoryPath: string, remote: string, branch: string): StatusItem {
 		return StatusItem.newAnimatedStatusItem(
-			`publishing branch '${branch}' to remote '${remote}' for '${getRepositoryName(repositoryPath)}'`
+			`publishing branch '${branch}' to remote '${remote}' for '${getRepositoryName(repositoryPath)}'`,
 		)
 	}
 
@@ -69,7 +69,7 @@ export default class Status {
 		remote: string,
 		branch: string,
 		ahead: number = 0,
-		behind: number = 0
+		behind: number = 0,
 	): StatusItem {
 		const message = `${ahead} / ${behind} commits merged on '${getBranchName(remote, branch)}'`
 
@@ -80,7 +80,7 @@ export default class Status {
 		remote: string,
 		branch: string,
 		ahead: number = 0,
-		behind: number = 0
+		behind: number = 0,
 	): StatusItem {
 		const message = `merging ${ahead} / ${behind} commits on '${getBranchName(remote, branch)}'`
 
@@ -121,6 +121,4 @@ const addSubmoduleText = (message: string, repositoryPath: string): string => {
 	return message
 }
 
-const getBranchName = (remote: string, branch: string): string => {
-	return (remote ? `${remote}/` : '') + branch
-}
+const getBranchName = (remote: string, branch: string): string => (remote ? `${remote}/` : '') + branch

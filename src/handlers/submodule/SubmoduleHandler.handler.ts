@@ -23,11 +23,11 @@ export default class SubmoduleHandler extends ChangeHandler {
 		const gitModel = await GitRepository.getGitModel()
 		const submodules = gitModel.getSubmodules()
 		const submodulePaths: Set<string> = new Set()
-		changedFiles.forEach(changedFile => {
+		changedFiles.forEach((changedFile) => {
 			const founds = submodules
-				.filter(submodule => new RegExp(submodule.getPath(), 'gi').test(changedFile))
-				.map(submodule => submodule.getPath())
-			founds.forEach(found => submodulePaths.add(found))
+				.filter((submodule) => new RegExp(submodule.getPath(), 'gi').test(changedFile))
+				.map((submodule) => submodule.getPath())
+			founds.forEach((found) => submodulePaths.add(found))
 		})
 
 		for (const submodulePath of submodulePaths) {

@@ -42,7 +42,7 @@ export default class BranchWarn extends ChangeHandler {
 		const action = await InformationMessage.showInformationMessage(
 			message,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 
 		if (action !== MessageOption.YES) {
@@ -55,7 +55,7 @@ export default class BranchWarn extends ChangeHandler {
 		let branch = ''
 		if (localBranches.length > 1) {
 			const options: QuickPickOption[] = []
-			localBranches.forEach(branch => {
+			localBranches.forEach((branch) => {
 				const branchName = branch.getName()
 				if (branchName !== currentBranch) {
 					options.push(new QuickPickOption(branchName, branchName))
@@ -78,7 +78,7 @@ export default class BranchWarn extends ChangeHandler {
 	// iff checkout fails => try to stash before checkout
 	private static checkoutWithoutStash = async (gitModel: Git, branch: string): Promise<void> => {
 		GitRepository.checkoutBranchForRepository(gitModel.getRelativePath(), branch).catch(() =>
-			BranchWarn.checkoutWithStash(gitModel, branch)
+			BranchWarn.checkoutWithStash(gitModel, branch),
 		)
 	}
 
@@ -103,18 +103,14 @@ export default class BranchWarn extends ChangeHandler {
 
 		if (stashChanges === ConfigOptions.auto) {
 			GitRepository.stashSaveChanges(repositoryPath)
-				.then(() => {
-					return true
-				})
-				.catch(() => {
-					return false
-				})
+				.then(() => true)
+				.catch(() => false)
 		}
 
 		const action = await InformationMessage.showInformationMessage(
 			`would you like to stash the current changes before checking out branch '${branch}'? The current changes will be lost`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 
 		if (action === MessageOption.NO) {
@@ -130,7 +126,7 @@ export default class BranchWarn extends ChangeHandler {
 		const action = await InformationMessage.showInformationMessage(
 			`would you like to unstash the changes?`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 		if (action !== MessageOption.YES) {
 			return

@@ -45,7 +45,7 @@ export default class StatusBar {
 	 * @param status status to remove
 	 */
 	static removeStatus(status: StatusItem): void {
-		StatusBar.status = StatusBar.status.filter(stat => stat !== status)
+		StatusBar.status = StatusBar.status.filter((stat) => stat !== status)
 		StatusBar.showLatestStatus()
 	}
 

@@ -31,7 +31,7 @@ export default class PushBeforeClosingIDE extends ChangeHandler {
 				''
 
 			// checks if no more files are opened in the current Window
-			workspace.textDocuments.forEach(doc => {
+			workspace.textDocuments.forEach((doc) => {
 				if (doc.fileName.includes(rootPath)) {
 					fileOpened = true
 				}
@@ -53,7 +53,7 @@ export default class PushBeforeClosingIDE extends ChangeHandler {
 			'choose an option',
 			new QuickPickOption('Push all changes and close Window', 'pushChanges'),
 			QuickPickOption.optionQUIT,
-			QuickPickOption.optionCANCEL
+			QuickPickOption.optionCANCEL,
 		)
 		if (command) {
 			if (command === 'pushChanges') {

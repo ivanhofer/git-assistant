@@ -16,7 +16,7 @@ export default class Commands {
 	 * @param context VS Code ExtensionContext
 	 */
 	static registerCommands(context: ExtensionContext): void {
-		COMMANDS.forEach(command => {
+		COMMANDS.forEach((command) => {
 			command.registerCommand(context)
 		})
 	}

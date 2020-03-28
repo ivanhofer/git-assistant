@@ -58,6 +58,4 @@ const getCurrentTimestamp = (): string => {
 	return `[${hour}:${minute}:${second}] `
 }
 
-const prefixWithZeros = (value: number): string => {
-	return (value < 10 ? '0' : '') + value
-}
+const prefixWithZeros = (value: number): string => (value < 10 ? '0' : '') + value

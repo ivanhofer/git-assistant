@@ -29,7 +29,7 @@ export default class HandleSubmoduleUpdate extends ChangeHandler {
 		const action = await InformationMessage.showInformationMessage(
 			`Your submodues have updated. Would you like to checkout these commits?`,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 
 		if (action !== MessageOption.YES) {

@@ -33,7 +33,7 @@ const HANDLERS = [
 	WatcherStart,
 	SubmoduleHandler,
 	HandleSubmoduleUpdate,
-	CheckConfigVariables
+	CheckConfigVariables,
 ]
 /**
  * this class registers all feature-handler in the extension
@@ -43,7 +43,7 @@ export default class Features {
 	 * registers all files matching the "*.handler.js"-name-pattern to the Event-Handler
 	 */
 	static enableFeatures(): void {
-		HANDLERS.forEach(handler => {
+		HANDLERS.forEach((handler) => {
 			handler.registerEventHandler()
 		})
 	}

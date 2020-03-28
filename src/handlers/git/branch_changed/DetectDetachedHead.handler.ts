@@ -53,7 +53,7 @@ export default class DetectDetachedHead extends ChangeHandler {
 		const action = await InformationMessage.showInformationMessage(
 			message,
 			MessageOption.optionYES,
-			MessageOption.optionNO
+			MessageOption.optionNO,
 		)
 		if (action !== MessageOption.YES) {
 			return
@@ -88,7 +88,7 @@ export default class DetectDetachedHead extends ChangeHandler {
 					return configuredBranch
 				}
 
-				const options: QuickPickOption[] = realBranches.map(branch => new QuickPickOption(branch, branch))
+				const options: QuickPickOption[] = realBranches.map((branch) => new QuickPickOption(branch, branch))
 
 				const selectedBranch = await QuickPick.showQuickPick('choose the branch to check out', ...options)
 				if (selectedBranch) {
@@ -101,7 +101,7 @@ export default class DetectDetachedHead extends ChangeHandler {
 			`could not find branch for '${current}' ${
 				!gitModel.isRootGit() ? ` in Submodule '${gitModel.getRelativePath()}'` : ''
 			}. You have to checkout the branch manually.`,
-			true
+			true,
 		)
 
 		return ''
