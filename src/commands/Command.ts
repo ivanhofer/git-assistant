@@ -22,7 +22,7 @@ export default abstract class Command {
 	 * this method is called when the Command should register
 	 * @param context VS Code ExtensionContext
 	 */
-	static registerCommand(context: ExtensionContext): void {
+	static registerCommand(_context: ExtensionContext): void {
 		throw new TypeError('Must override method')
 	}
 }

@@ -25,7 +25,7 @@ export default class CMD {
 				return reject()
 			}
 			// execute the passed command
-			exec(command, { cwd: workspace }, (error: any, stdout: any, stderr: any) => {
+			exec(command, { cwd: workspace }, (error: any, stdout: any, _stderr: any) => {
 				if (error !== null) {
 					return reject(error)
 				}

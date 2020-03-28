@@ -13,7 +13,7 @@ export default abstract class ChangeHandler {
 	 * function that is called when a Event was fired
 	 * @param payload some additional information for the Handlers
 	 */
-	static async handle(payload?: any): Promise<void> {
+	static async handle(_payload?: any): Promise<void> {
 		throw new TypeError('Must override method')
 	}
 }

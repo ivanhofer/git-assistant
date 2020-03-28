@@ -17,7 +17,7 @@ export default class InformationMessage {
 	 * @param options options to display
 	 */
 	static showInformationMessage(message: string, ...options: MessageOption[]): Promise<string> {
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve) => {
 			let resolved = false
 
 			const timeToWait = Config.getValue('message-wait-time') as number

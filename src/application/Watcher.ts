@@ -26,7 +26,7 @@ export default class Watcher {
 	 * starts listening in the current Workspace-folder
 	 */
 	static async start(): Promise<void> {
-		Watcher.fsWatcher = watch(getWorkspacePath(), { recursive: true }, (event: string, filename: any) => {
+		Watcher.fsWatcher = watch(getWorkspacePath(), { recursive: true }, (_event: string, filename: any) => {
 			Watcher.handleFileChange(filename)
 		})
 
@@ -142,7 +142,7 @@ export default class Watcher {
 	private static waitForLastChange(event: Event, filename: string): Promise<string[]> {
 		const increased = Watcher.addChange(event, filename)
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			setTimeout(() => {
 				const lastUpdate = Watcher.getLastChange(event)
 				// if the file of this call was the last changed file for this Event => return all changed files
