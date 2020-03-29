@@ -9,21 +9,29 @@ import Logger from './UI/Logger'
 import Status from './UI/Status'
 import StatusBar from './UI/StatusBar'
 import Config from './application/Config'
+import { exists } from 'fs'
 
 let context: ExtensionContext
 
 // this function is called when the extension is activated for the first time
 export const activate = (ctx: ExtensionContext): void => {
 	context = ctx
-	initExtension()
+
+	Logger.init()
+
+	exists('.git', (exists) => {
+		if (exists) {
+			initExtension()
+		} else {
+			Commands.registerDummyCommands(context)
+		}
+	})
 }
 
 // this method is called when your extension is deactivated
 export const deactivate = (): void => Logger.showMessage('Extension deactivated')
 
 const initExtension = async (): Promise<void> => {
-	Logger.init()
-
 	Config.loadConfig()
 
 	await Commands.registerCommands(context)

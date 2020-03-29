@@ -13,6 +13,14 @@ export default class StopExtension extends Command {
 		Command.register(context, 'stopGitAssisitant', StopExtension.stopExtension)
 	}
 
+	static registerDummyCommand(context: ExtensionContext): void {
+		Command.register(
+			context,
+			'stopGitAssisitant',
+			Logger.showMessage.bind(null, 'you must open a git-repository in your workspace root', true),
+		)
+	}
+
 	static async stopExtension(): Promise<void> {
 		Logger.showMessage('Git Assistant stopped manually')
 		Watcher.stop()

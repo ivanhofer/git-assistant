@@ -15,6 +15,14 @@ export default class StartExtension extends Command {
 		Command.register(context, 'startGitAssisitant', StartExtension.startExtension)
 	}
 
+	static registerDummyCommand(context: ExtensionContext): void {
+		Command.register(
+			context,
+			'startGitAssisitant',
+			Logger.showMessage.bind(null, 'you must open a git-repository in your workspace root', true),
+		)
+	}
+
 	static async startExtension(): Promise<void> {
 		Logger.showMessage('Git Assistant started manually')
 

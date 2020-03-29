@@ -12,6 +12,14 @@ export default class ShowOutputCommand extends Command {
 		Command.register(context, 'showOutput', ShowOutputCommand.executeCommand)
 	}
 
+	static registerDummyCommand(context: ExtensionContext): void {
+		Command.register(
+			context,
+			'showOutput',
+			Logger.showMessage.bind(null, 'you must open a git-repository in your workspace root', true),
+		)
+	}
+
 	static executeCommand(): void {
 		Logger.showOutput()
 	}

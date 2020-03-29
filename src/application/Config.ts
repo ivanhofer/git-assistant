@@ -25,7 +25,7 @@ export default class Config {
 	 * @param value config-key
 	 */
 	static getValue(value: string): any {
-		return Config.config.get(value)
+		return Config.config?.get(value)
 	}
 
 	/**

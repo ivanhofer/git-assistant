@@ -55,7 +55,7 @@
 		"theme": "light"
 	},
 	"activationEvents": [
-		"workspaceContains:.git"
+		"*"
 	],
 	"main": "./dist/extension",
 	"contributes": {

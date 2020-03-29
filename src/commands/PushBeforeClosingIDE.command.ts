@@ -1,6 +1,6 @@
 'use strict'
 
-import { ExtensionContext } from 'vscode'
+import { ExtensionContext, commands } from 'vscode'
 import Event from '../models/Event'
 import EventHandler from '../handlers/EventHandler'
 import Command from './Command'
@@ -13,6 +13,15 @@ export default class PushBeforeClosingIDECommand extends Command {
 	static registerCommand(context: ExtensionContext): void {
 		Command.register(context, 'pushBeforeClosingIDE', PushBeforeClosingIDECommand.pushBeforeClosingIDE)
 		Command.register(context, 'pushBeforeClosingIDEhard', PushBeforeClosingIDECommand.pushBeforeClosingIDEhard)
+	}
+
+	static registerDummyCommand(context: ExtensionContext): void {
+		Command.register(
+			context,
+			'pushBeforeClosingIDE',
+			commands.executeCommand.bind(null, 'workbench.action.closeActiveEditor'),
+		)
+		Command.register(context, 'pushBeforeClosingIDEhard', commands.executeCommand.bind(null, 'workbench.action.quit'))
 	}
 
 	static async pushBeforeClosingIDE(): Promise<void> {

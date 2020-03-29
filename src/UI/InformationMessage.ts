@@ -20,7 +20,7 @@ export default class InformationMessage {
 		return new Promise(async (resolve) => {
 			let resolved = false
 
-			const timeToWait = Config.getValue('message-wait-time') as number
+			const timeToWait = (Config.getValue('message-wait-time') as number) || 0
 			// auto-resolve message after a certain time so the Extension will not be blocked
 			setTimeout(() => {
 				if (!resolved) {

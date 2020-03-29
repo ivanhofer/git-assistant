@@ -25,4 +25,12 @@ export default abstract class Command {
 	static registerCommand(_context: ExtensionContext): void {
 		throw new TypeError('Must override method')
 	}
+
+	/**
+	 * this method is called when the dummy Command should register
+	 * @param context VS Code ExtensionContext
+	 */
+	static registerDummyCommand(_context: ExtensionContext): void {
+		throw new TypeError('Must override method')
+	}
 }
