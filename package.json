@@ -1,267 +1,267 @@
 {
-	"name": "git-assistant",
-	"displayName": "Git (Submodule) Assistant",
-	"description": "VS Code extension that detects common git (and submodule) issues and helps to solve them",
-	"version": "1.3.0",
-	"publisher": "ivanhofer",
-	"repository": "https://github.com/ivanhofer/git-assistant",
-	"license": "MIT",
-	"scripts": {
-		"vscode:prepublish": "webpack --mode production",
-		"vscode:publish": "npm run vscode:prepublish && vsce package && vsce publish",
-		"webpack": "webpack --mode development",
-		"webpack-dev": "webpack --mode development --watch",
-		"test-compile": "tsc -p ./",
-		"version-bump": "node version-bump",
-		"lint:fix": "eslint --fix src/**/*.ts"
-	},
-	"devDependencies": {
-		"@types/deep-diff": "^1.0.0",
-		"@types/glob": "^7.1.1",
-		"@types/node": "^13.9.5",
-		"@typescript-eslint/eslint-plugin": "^2.25.0",
-		"@typescript-eslint/parser": "^2.25.0",
-		"copy-webpack-plugin": "^5.1.1",
-		"eslint": "^6.8.0",
-		"eslint-config-prettier": "^6.10.1",
-		"eslint-plugin-prettier": "^3.1.2",
-		"prettier": "^2.0.2",
-		"ts-loader": "^6.2.2",
-		"typescript": "^3.8.3",
-		"vsce": "^1.74.0",
-		"vscode": "^1.1.36",
-		"webpack": "^4.42.1",
-		"webpack-cli": "^3.3.11"
-	},
-	"dependencies": {
-		"deep-diff": "^1.0.2",
-		"simple-git": "^1.132.0"
-	},
-	"engines": {
-		"vscode": "^1.33.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"keywords": [
-		"git",
-		"submodule",
-		"assistant",
-		"helper",
-		"workflow"
-	],
-	"icon": "images/icon.png",
-	"galleryBanner": {
-		"color": "#F2A52A",
-		"theme": "light"
-	},
-	"activationEvents": [
-		"*"
-	],
-	"main": "./dist/extension",
-	"contributes": {
-		"commands": [
-			{
-				"command": "git-assistant.startGitAssisitant",
-				"title": "Git Assistant - Start Watching"
-			},
-			{
-				"command": "git-assistant.stopGitAssisitant",
-				"title": "Git Assistant - Stop Watching"
-			},
-			{
-				"command": "git-assistant.showOutput",
-				"title": "Git Assistant - Show Logging Output"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "git-assistant.pushBeforeClosingIDEhard",
-				"title": "Quit VSCode",
-				"key": "ctrl+Q",
-				"mac": "cmd+Q"
-			},
-			{
-				"command": "git-assistant.pushBeforeClosingIDE",
-				"title": "Close Editor",
-				"key": "ctrl+W",
-				"mac": "cmd+W"
-			}
-		],
-		"configuration": {
-			"type": "object",
-			"title": "Git Assistant",
-			"properties": {
-				"git-assistant.enabled": {
-					"type": "boolean",
-					"default": true,
-					"description": "enables git-assistant on startup"
-				},
-				"git-assistant.message-wait-time": {
-					"type": "number",
-					"default": 60000,
-					"description": "time in ms to wait for an interaction with a message"
-				},
-				"git-assistant.watcher-excludePaths": {
-					"type": "array",
-					"default": [
-						"dist",
-						"node_modules",
-						"out"
-					],
-					"description": "defines wich folders should not be included to watch for changes"
-				},
-				"git-assistant.checkConfigVariables": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "performs a check for missing git-config variables on startup"
-				},
-				"git-assistant.checkConfigVariables-variablesToCheck": {
-					"type": "array",
-					"default": [
-						"user.email",
-						"user.name",
-						"user.username"
-					],
-					"description": "defines wich git-config variables should be checked"
-				},
-				"git-assistant.checkConfigVariables-scope": {
-					"type": "string",
-					"enum": [
-						"global",
-						"local"
-					],
-					"default": "global",
-					"description": "defines if the git-config-variables should be set global or local"
-				},
-				"git-assistant.branchWarn": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "checks for branches the developer should not commit"
-				},
-				"git-assistant.branchWarn-illegalBranches": {
-					"type": "array",
-					"default": [
-						"master"
-					],
-					"description": "defines the branches the developer should not commit"
-				},
-				"git-assistant.branchWarn-stashChanges": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "defines if changes should be stashed it checkout fails"
-				},
-				"git-assistant.pushBeforeClosingIDE": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "warns if there are unpushed commits when closing the IDE"
-				},
-				"git-assistant.pushSubmodulesFirst": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "pushes commits in submodules before commits in main-repository"
-				},
-				"git-assistant.checkForRemote": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "warns if a branch was not pushed to the remote"
-				},
-				"git-assistant.checkForRemote-defaultRemote": {
-					"type": "string",
-					"default": "",
-					"description": "if remote is set, branches will be pushed automatically to this remote"
-				},
-				"git-assistant.pullCommits": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "pulls commits"
-				},
-				"git-assistant.pushCommits": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "pushes commits"
-				},
-				"git-assistant.mergeCommits": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "merges commits"
-				},
-				"git-assistant.detectDetachedHead": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "checks repository and submodule for detachedHEAD-status"
-				},
-				"git-assistant.updateSubmodules": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"auto",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "updates Submodules automatically if main-repository changes"
-				},
-				"git-assistant.checkRemoteChanges": {
-					"type": "string",
-					"enum": [
-						"enabled",
-						"disabled"
-					],
-					"default": "enabled",
-					"description": "checks periodically for new commits on server"
-				},
-				"git-assistant.checkRemoteChanges-checkEveryNMinutes": {
-					"type": "number",
-					"default": 60,
-					"description": "checks periodically for new commits on server"
-				}
-			}
-		}
-	}
+   "name": "git-assistant",
+   "displayName": "Git (Submodule) Assistant",
+   "description": "VS Code extension that detects common git (and submodule) issues and helps to solve them",
+   "version": "1.3.1",
+   "publisher": "ivanhofer",
+   "repository": "https://github.com/ivanhofer/git-assistant",
+   "license": "MIT",
+   "scripts": {
+      "vscode:prepublish": "webpack --mode production",
+      "vscode:publish": "npm run vscode:prepublish && vsce package && vsce publish",
+      "webpack": "webpack --mode development",
+      "webpack-dev": "webpack --mode development --watch",
+      "test-compile": "tsc -p ./",
+      "version-bump": "node version-bump",
+      "lint:fix": "eslint --fix src/**/*.ts"
+   },
+   "devDependencies": {
+      "@types/deep-diff": "^1.0.0",
+      "@types/glob": "^7.1.1",
+      "@types/node": "^13.9.5",
+      "@typescript-eslint/eslint-plugin": "^2.25.0",
+      "@typescript-eslint/parser": "^2.25.0",
+      "copy-webpack-plugin": "^5.1.1",
+      "eslint": "^6.8.0",
+      "eslint-config-prettier": "^6.10.1",
+      "eslint-plugin-prettier": "^3.1.2",
+      "prettier": "^2.0.2",
+      "ts-loader": "^6.2.2",
+      "typescript": "^3.8.3",
+      "vsce": "^1.74.0",
+      "vscode": "^1.1.36",
+      "webpack": "^4.42.1",
+      "webpack-cli": "^3.3.11"
+   },
+   "dependencies": {
+      "deep-diff": "^1.0.2",
+      "simple-git": "^1.132.0"
+   },
+   "engines": {
+      "vscode": "^1.33.0"
+   },
+   "categories": [
+      "Other"
+   ],
+   "keywords": [
+      "git",
+      "submodule",
+      "assistant",
+      "helper",
+      "workflow"
+   ],
+   "icon": "images/icon.png",
+   "galleryBanner": {
+      "color": "#F2A52A",
+      "theme": "light"
+   },
+   "activationEvents": [
+      "*"
+   ],
+   "main": "./dist/extension",
+   "contributes": {
+      "commands": [
+         {
+            "command": "git-assistant.startGitAssisitant",
+            "title": "Git Assistant - Start Watching"
+         },
+         {
+            "command": "git-assistant.stopGitAssisitant",
+            "title": "Git Assistant - Stop Watching"
+         },
+         {
+            "command": "git-assistant.showOutput",
+            "title": "Git Assistant - Show Logging Output"
+         }
+      ],
+      "keybindings": [
+         {
+            "command": "git-assistant.pushBeforeClosingIDEhard",
+            "title": "Quit VSCode",
+            "key": "ctrl+Q",
+            "mac": "cmd+Q"
+         },
+         {
+            "command": "git-assistant.pushBeforeClosingIDE",
+            "title": "Close Editor",
+            "key": "ctrl+W",
+            "mac": "cmd+W"
+         }
+      ],
+      "configuration": {
+         "type": "object",
+         "title": "Git Assistant",
+         "properties": {
+            "git-assistant.enabled": {
+               "type": "boolean",
+               "default": true,
+               "description": "enables git-assistant on startup"
+            },
+            "git-assistant.message-wait-time": {
+               "type": "number",
+               "default": 60000,
+               "description": "time in ms to wait for an interaction with a message"
+            },
+            "git-assistant.watcher-excludePaths": {
+               "type": "array",
+               "default": [
+                  "dist",
+                  "node_modules",
+                  "out"
+               ],
+               "description": "defines wich folders should not be included to watch for changes"
+            },
+            "git-assistant.checkConfigVariables": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "performs a check for missing git-config variables on startup"
+            },
+            "git-assistant.checkConfigVariables-variablesToCheck": {
+               "type": "array",
+               "default": [
+                  "user.email",
+                  "user.name",
+                  "user.username"
+               ],
+               "description": "defines wich git-config variables should be checked"
+            },
+            "git-assistant.checkConfigVariables-scope": {
+               "type": "string",
+               "enum": [
+                  "global",
+                  "local"
+               ],
+               "default": "global",
+               "description": "defines if the git-config-variables should be set global or local"
+            },
+            "git-assistant.branchWarn": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "checks for branches the developer should not commit"
+            },
+            "git-assistant.branchWarn-illegalBranches": {
+               "type": "array",
+               "default": [
+                  "master"
+               ],
+               "description": "defines the branches the developer should not commit"
+            },
+            "git-assistant.branchWarn-stashChanges": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "defines if changes should be stashed it checkout fails"
+            },
+            "git-assistant.pushBeforeClosingIDE": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "warns if there are unpushed commits when closing the IDE"
+            },
+            "git-assistant.pushSubmodulesFirst": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "pushes commits in submodules before commits in main-repository"
+            },
+            "git-assistant.checkForRemote": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "warns if a branch was not pushed to the remote"
+            },
+            "git-assistant.checkForRemote-defaultRemote": {
+               "type": "string",
+               "default": "",
+               "description": "if remote is set, branches will be pushed automatically to this remote"
+            },
+            "git-assistant.pullCommits": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "pulls commits"
+            },
+            "git-assistant.pushCommits": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "pushes commits"
+            },
+            "git-assistant.mergeCommits": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "merges commits"
+            },
+            "git-assistant.detectDetachedHead": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "checks repository and submodule for detachedHEAD-status"
+            },
+            "git-assistant.updateSubmodules": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "auto",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "updates Submodules automatically if main-repository changes"
+            },
+            "git-assistant.checkRemoteChanges": {
+               "type": "string",
+               "enum": [
+                  "enabled",
+                  "disabled"
+               ],
+               "default": "enabled",
+               "description": "checks periodically for new commits on server"
+            },
+            "git-assistant.checkRemoteChanges-checkEveryNMinutes": {
+               "type": "number",
+               "default": 60,
+               "description": "checks periodically for new commits on server"
+            }
+         }
+      }
+   }
 }
