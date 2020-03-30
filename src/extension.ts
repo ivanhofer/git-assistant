@@ -10,6 +10,7 @@ import Status from './UI/Status'
 import StatusBar from './UI/StatusBar'
 import Config from './application/Config'
 import { exists } from 'fs'
+import { getWorkspacePath } from './application/Helper'
 
 let context: ExtensionContext
 
@@ -19,7 +20,7 @@ export const activate = (ctx: ExtensionContext): void => {
 
 	Logger.init()
 
-	exists('.git', (exists) => {
+	exists(getWorkspacePath() + '/.git', (exists) => {
 		if (exists) {
 			initExtension()
 		} else {
