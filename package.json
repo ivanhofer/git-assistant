@@ -8,6 +8,7 @@
 	"license": "MIT",
 	"scripts": {
 		"vscode:prepublish": "webpack --mode none",
+		"vscode:package": "npm run vscode:prepublish && vsce package",
 		"vscode:publish": "npm run vscode:prepublish && vsce package && vsce publish",
 		"webpack": "webpack --mode none",
 		"webpack-dev": "webpack --mode development --watch",

@@ -1,65 +1,51 @@
 name: build and publish extension
 
 on:
-  push:
-    branches:
-      - development
-      - master
-    paths-ignore: # dont run when changes made to these folders
-      - ".vscode/**"
+   push:
+      branches:
+         - master
+      paths-ignore: # dont run when changes made to these folders
+         - '.vscode/**'
 
 jobs:
-  publish:
-    name: build & publish
-    runs-on: windows-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v2
+   publish:
+      name: build & publish
+      runs-on: windows-latest
+      steps:
+         - name: checkout repo
+           uses: actions/checkout@v2
 
-      - name: "Automated Version Bump"
-        if: github.ref == 'refs/heads/master'
-        uses: "phips28/gh-action-bump-version@master"
-        with:
-          tag-prefix: "release"
+         - name: 'Automated Version Bump'
+           uses: 'phips28/gh-action-bump-version@master'
+           with:
+              tag-prefix: 'release'
 
-      - name: fetch all history and tags from all branches for gitversion
-        run: git fetch --prune --unshallow
+         - name: fetch all history and tags from all branches for gitversion
+           run: git fetch --prune --unshallow
 
-      - name: install gitversion tool
-        uses: gittools/actions/gitversion/setup@v0.9
-        with:
-          versionSpec: "5.1.x"
+         - name: install gitversion tool
+           uses: gittools/actions/gitversion/setup@v0.9
+           with:
+              versionSpec: '5.1.x'
 
-      - name: execute gitversion
-        id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v0.9
+         - name: execute gitversion
+           id: gitversion # step id used as reference for output values
+           uses: gittools/actions/gitversion/execute@v0.9
 
-      - name: setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
+         - name: setup node
+           uses: actions/setup-node@v1
+           with:
+              node-version: '12.x'
 
-      - name: clean install dependencies
-        run: npm ci
+         - name: clean install dependencies
+           run: npm ci
 
-      - name: compile and create vsix
-        run: npm run vscode:prepublish
+         - name: build extension
+           run: npm run vscode:package
 
-      - name: upload vsix as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: git-assistant-${{steps.gitversion.outputs.semVer}}.vsix
-          path: ${{github.workspace}}/git-assistant-${{steps.gitversion.outputs.semVer}}.vsix
-
-      - name: publish to marketplace
-        if: github.ref == 'refs/heads/master'
-        run: npm run vscode:prepublish
-
-      - name: create a release
-        if: github.ref == 'refs/heads/master'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: v${{ steps.gitversion.outputs.semVer }}
-          release_name: v${{ steps.gitversion.outputs.semVer }}
+         - name: publish to marketplace
+           run: vsce
+           with:
+              args: 'publish -p $VSCE_TOKEN'
+           env:
+              VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
