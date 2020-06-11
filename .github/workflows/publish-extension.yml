@@ -10,7 +10,7 @@ on:
 jobs:
    publish:
       name: build & publish
-      runs-on: windows-latest
+      runs-on: ubuntu-latest
       steps:
          - name: checkout repo
            uses: actions/checkout@v2
