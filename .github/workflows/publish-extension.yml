@@ -1,0 +1,51 @@
+name: build and publish extension
+
+on:
+   push:
+      branches:
+         - master
+      paths-ignore: # dont run when changes made to these folders
+         - '.vscode/**'
+
+jobs:
+   publish:
+      name: build & publish
+      runs-on: windows-latest
+      steps:
+         - name: checkout repo
+           uses: actions/checkout@v2
+
+         - name: 'Automated Version Bump'
+           uses: 'phips28/gh-action-bump-version@master'
+           with:
+              tag-prefix: 'release'
+
+         - name: fetch all history and tags from all branches for gitversion
+           run: git fetch --prune --unshallow
+
+         - name: install gitversion tool
+           uses: gittools/actions/gitversion/setup@v0.9
+           with:
+              versionSpec: '5.1.x'
+
+         - name: execute gitversion
+           id: gitversion # step id used as reference for output values
+           uses: gittools/actions/gitversion/execute@v0.9
+
+         - name: setup node
+           uses: actions/setup-node@v1
+           with:
+              node-version: '12.x'
+
+         - name: clean install dependencies
+           run: npm ci
+
+         - name: build extension
+           run: npm run vscode:package
+
+         - name: publish to marketplace
+           run: vsce
+           with:
+              args: 'publish -p $VSCE_TOKEN'
+           env:
+              VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
