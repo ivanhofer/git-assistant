@@ -2,7 +2,7 @@
 	"name": "git-assistant",
 	"displayName": "Git (Submodule) Assistant",
 	"description": "VS Code extension that detects common git (and submodule) issues and helps to solve them",
-	"version": "1.3.6",
+	"version": "1.3.7",
 	"publisher": "ivanhofer",
 	"repository": "https://github.com/ivanhofer/git-assistant",
 	"license": "MIT",
