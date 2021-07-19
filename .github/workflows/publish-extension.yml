@@ -44,4 +44,4 @@ jobs:
            uses: actions/upload-artifact@v1
            with:
              name: git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
-             path: ${{ github.workspace }}/git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
+             path: git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
