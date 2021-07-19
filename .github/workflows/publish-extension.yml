@@ -34,4 +34,14 @@ jobs:
          - name: publish to marketplace
            run: npx vsce publish -p $VSCE_TOKEN
            env:
-              VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+             VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+
+         - name: get-npm-version
+           id: package-version
+           uses: martinbeentjes/npm-get-version-action@master
+
+         - name: upload .vsix as artifact
+           uses: actions/upload-artifact@v1
+           with:
+             name: git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
+             path: ${{ github.workspace }}/git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
