@@ -42,4 +42,5 @@ jobs:
 
          - uses: actions/upload-artifact@v2
            with:
-            path: git-assistant-*.vsix
+             name: git-assistant-${{ steps.package-version.outputs.current-version }}.vsix
+             path: git-assistant-*.vsix
