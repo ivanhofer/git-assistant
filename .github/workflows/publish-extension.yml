@@ -25,8 +25,8 @@ jobs:
            with:
               node-version: '12.x'
 
-         - name: clean install dependencies
-           run: npm ci
+         - name: install dependencies
+           run: npm i
 
          - name: build extension
            run: npm run vscode:package
