@@ -15,18 +15,18 @@ jobs:
          - name: checkout repo
            uses: actions/checkout@v2
 
+         - name: setup node
+           uses: actions/setup-node@v1
+           with:
+              node-version: '14.x'
+
+         - name: install dependencies
+           run: npm i
+
          - name: 'Automated Version Bump'
            uses: 'phips28/gh-action-bump-version@master'
            with:
               tag-prefix: 'release'
-
-         - name: setup node
-           uses: actions/setup-node@v1
-           with:
-              node-version: '12.x'
-
-         - name: install dependencies
-           run: npm i
 
          - name: build extension
            run: npm run vscode:package
