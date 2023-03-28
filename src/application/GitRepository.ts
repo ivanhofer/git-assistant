@@ -4,6 +4,7 @@ import { join } from 'path'
 import { readFile } from 'fs'
 import Git from '../models/Git'
 import Submodule from '../models/Submodule'
+import Branch from '../models/Branch'
 import Logger from '../UI/Logger'
 import Status from '../UI/Status'
 import StatusBar from '../UI/StatusBar'
@@ -470,6 +471,37 @@ export default class GitRepository {
 		})
 	}
 
+	/**
+	 * Get the list of branches that conatining current commit
+	 * @param gitModel Git-Model of Submodule
+	 */
+	static async getBranchesContain(gitModel: Git): Promise<Branch[]> {
+		let simplegit = GitRepository.getSimplegit(gitModel.getRelativePath())
+		const branches_local = await simplegit.branch(['--contains', gitModel.getBranch()])
+		const branches_remote = await simplegit.branch(['--remote', '--contains', gitModel.getBranch()])
+		let branches : Branch[] = []
+		let branches_local_names : string[] = []
+		let discardfirst : boolean = branches_local.detached
+		branches_local.all.forEach((key: any) => {
+			// Discard the first local branch if detached (it is our detached branch)
+			if (discardfirst) {
+				discardfirst = false
+			} else {
+				branches.push(new Branch(branches_local.branches[key].name, branches_local.branches[key].commit))
+				branches_local_names.push(branches_local.branches[key].name)
+			}
+		})
+		branches_remote.all.forEach((key: any) => {
+			// Get the branch name by removing the first part before slash which is the origin
+			let name = branches_remote.branches[key].name.split("/",2)[1]
+			// Make sure that we don't add twice a remote branch and local branch
+			if (!branches_local_names.includes(name)) {
+				branches.push(new Branch(name, branches_remote.branches[key].commit))
+			}
+		})
+		return branches
+	}
+	
 	/*******************************************************************************************/
 	/* PULL */
 	/*******************************************************************************************/
