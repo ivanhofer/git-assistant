@@ -66,44 +66,41 @@ export default class DetectDetachedHead extends ChangeHandler {
 	 * finds the corresponding Branch for a Commit-Hash
 	 */
 	private static getRealBranchForHash = async (gitModel: Git): Promise<string> => {
-		// the first one in the list is the current "detached HEAD"
-		const branches = gitModel.getLocalBranches().filter((branch, index) => index > 1)
-		const current = gitModel.getBranch()
-
-		const realBranches: string[] = []
-		branches.forEach((branch: Branch) => {
-			if (current === branch.getCommit() || current === branch.getName()) {
-				realBranches.push(branch.getName())
-			}
-		})
-
-		if (realBranches.length) {
-			if (realBranches.length === 1) {
-				return realBranches[0]
-			}
-
+		// Get the list of branches that contain the specified commit
+		const branches = await GitRepository.getBranchesContain(gitModel)
+		// If there is only one, we have found it
+		if (branches.length === 1) {
+			return branches[0].getName()
+		}
+		// Otherwise, if we have many options ...
+		if (branches.length) {
+			// Create a list with the branches names
+			const branches_names: string[] = []
+			branches.forEach((branch: Branch) => {
+				branches_names.push(branch.getName())
+			})
+			// Check if any of them match with the configured one in .gitmodules
 			if (gitModel.getMainRepositoryPath()) {
 				const configuredBranch = await GitRepository.getConfiguredBranchForSubmodule(gitModel)
-				if (configuredBranch && realBranches.includes(configuredBranch)) {
+				if (configuredBranch && branches_names.includes(configuredBranch)) {
 					return configuredBranch
 				}
-
-				const options: QuickPickOption[] = realBranches.map((branch) => new QuickPickOption(branch, branch))
-
-				const selectedBranch = await QuickPick.showQuickPick('choose the branch to check out', ...options)
-				if (selectedBranch) {
-					return selectedBranch
-				}
+			}
+			// Otherwise ask the user
+			const options: QuickPickOption[] = branches_names.map((branch) => new QuickPickOption(branch, branch))
+			const selectedBranch = await QuickPick.showQuickPick('choose the branch to check out', ...options)
+			if (selectedBranch) {
+				return selectedBranch
 			}
 		}
-
+		// If no branch contains the current commit, just warn the user
+		const current = gitModel.getBranch()
 		Logger.showError(
 			`could not find branch for '${current}' ${
 				!gitModel.isRootGit() ? ` in Submodule '${gitModel.getRelativePath()}'` : ''
 			}. You have to checkout the branch manually.`,
 			true,
 		)
-
 		return ''
 	}
 }
