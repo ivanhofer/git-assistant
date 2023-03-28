@@ -1,6 +1,5 @@
 'use strict'
 
-import { FSWatcher, watch } from 'fs'
 import Event from '../models/Event'
 import EventHandler from '../handlers/EventHandler'
 import Logger from '../UI/Logger'
@@ -16,7 +15,7 @@ const TIME_TO_WAIT_FOR_ALL_CHANGES = 1000
  * this class handles changes in the curretnt Workspace-folder
  */
 export default class Watcher {
-	private static fsWatcher: FSWatcher
+	private static fsWatcher: any
 	private static lastChange: Map<Event, number>
 	private static changedFiles: Map<Event, Set<string>>
 	private static excludePaths: string[]
@@ -26,7 +25,8 @@ export default class Watcher {
 	 * starts listening in the current Workspace-folder
 	 */
 	static async start(): Promise<void> {
-		Watcher.fsWatcher = watch(getWorkspacePath(), { recursive: true }, (_event: string, filename: any) => {
+		const chokidar = require('chokidar');
+		Watcher.fsWatcher = chokidar.watch(getWorkspacePath(), (_event: string, filename: any) => {
 			Watcher.handleFileChange(filename)
 		})
 
